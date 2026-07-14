@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday | For Someone Special</title>
+    
+    <!-- Scripts & Styles -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --accent: #c084fc;
+            --bg: #050505;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        .playfair { font-family: 'Playfair Display', serif; }
+
+        /* Custom Cursor */
+        #cursor {
+            width: 20px;
+            height: 20px;
+            background: var(--accent);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: transform 0.1s ease;
+        }
+
+        /* Animated Mesh Gradient Background */
+        .mesh-gradient {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(at 0% 0%, rgba(192, 132, 252, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(59, 130, 246, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(236, 72, 153, 0.15) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, rgba(192, 132, 252, 0.15) 0px, transparent 50%);
+            filter: blur(100px);
+        }
+
+        /* Glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+        }
+
+        /* Reveal Animation Classes */
+        .reveal { opacity: 0; transform: translateY(30px); }
+
+        /* Section Transition */
+        section { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+
+        /* Floating Animation */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        .float { animation: float 6s ease-in-out infinite; }
+    </style>
+</head>
+<body>
+
+    <div id="cursor"></div>
+    <div class="mesh-gradient"></div>
+
+    <!-- Intro / Music Unlock -->
+    <div id="loader" class="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center text-center p-6">
+        <h2 class="text-4xl font-bold mb-8 playfair italic">Something special is waiting...</h2>
+        <button onclick="startExperience()" class="px-8 py-4 bg-white text-black rounded-full font-bold hover:scale-110 transition-transform active:scale-95">
+            Open Your Message
+        </button>
+        <p class="mt-4 text-gray-500 text-sm">Turn your sound on 🔊</p>
+    </div>
+
+    <!-- Background Music (Hidden) -->
+    <!-- Replace URL with a link to your favorite song -->
+    <audio id="bgMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Main Content -->
+    <main id="content" class="hidden">
+        
+        <!-- Hero Section -->
+        <section id="hero">
+            <div class="text-center">
+                <h1 class="text-6xl md:text-8xl font-extrabold mb-4 reveal">
+                    HAPPY <br> 
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">BIRTHDAY.</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-400 reveal">Today is all about you.</p>
+                <div class="mt-12 float inline-block">
+                    <div class="w-px h-24 bg-gradient-to-b from-purple-500 to-transparent mx-auto"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Message Section -->
+        <section id="message-section">
+            <div class="max-w-3xl glass p-8 md:p-16 text-center">
+                <h2 class="text-3xl font-bold mb-6 playfair italic reveal">To My Favorite Human,</h2>
+                <p class="text-lg leading-relaxed text-gray-300 reveal">
+                    In a world of billions, you manage to be the most radiant light I've ever found. 
+                    Watching you grow, laugh, and achieve your dreams is my favorite view. 
+                    2025 is just another year for the world, but for you, it's a new chapter of brilliance.
+                </p>
+                <p class="mt-6 text-lg text-gray-300 reveal">
+                    I made this space just to remind you how much you are cherished. 
+                    Keep scrolling, there's more...
+                </p>
+            </div>
+        </section>
+
+        <!-- Bento Memory Grid -->
+        <section id="memories">
+            <div class="max-w-6xl w-full">
+                <h3 class="text-center text-4xl font-bold mb-12 reveal">Moments to Remember</h3>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[200px]">
+                    <!-- Replace 'src' with your actual photos -->
+                    <div class="md:col-span-2 md:row-span-2 glass overflow-hidden reveal">
+                        <img src="https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&q=80" class="w-full h-full object-cover opacity-60 hover:opacity-100 transition-opacity duration-700" alt="Memory 1">
+                    </div>
+                    <div class="md:col-span-2 glass overflow-hidden reveal">
+                        <img src="https://images.unsplash.com/photo-1530103043960-ef38714abb15?auto=format&fit=crop&q=80" class="w-full h-full object-cover opacity-60 hover:opacity-100 transition-opacity duration-700" alt="Memory 2">
+                    </div>
+                    <div class="glass overflow-hidden reveal">
+                        <img src="https://images.unsplash.com/photo-1464349153735-7db50ed83c84?auto=format&fit=crop&q=80" class="w-full h-full object-cover opacity-60 hover:opacity-100 transition-opacity duration-700" alt="Memory 3">
+                    </div>
+                    <div class="glass overflow-hidden reveal">
+                        <div class="p-6 flex flex-col justify-center h-full">
+                            <p class="text-sm italic">"Every day with you is a celebration."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Interactive "Cake" Reveal -->
+        <section id="celebrate">
+            <div class="text-center">
+                <div id="cake-container" class="cursor-pointer hover:scale-105 transition-transform duration-500">
+                    <div class="text-9xl mb-8">🎂</div>
+                </div>
+                <h2 class="text-4xl font-bold mb-4 reveal">Make a Wish!</h2>
+                <p class="text-gray-400 mb-8 reveal">Click the cake to light up the sky.</p>
+                <button id="finalBtn" onclick="triggerCelebration()" class="px-10 py-5 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full text-white font-bold text-xl shadow-lg shadow-purple-500/20">
+                    I Wish For Happiness ✨
+                </button>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="py-20 text-center opacity-50">
+            <p>© 2025 | Built with ❤️ just for you.</p>
+        </footer>
+
+    </main>
+
+    <script>
+        // Custom Cursor Logic
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            gsap.to(cursor, {
+                x: e.clientX,
+                y: e.clientY,
+                duration: 0.1,
+                ease: "power2.out"
+            });
+        });
+
+        // Start Experience
+        function startExperience() {
+            // Play Music
+            const music = document.getElementById('bgMusic');
+            music.play();
+
+            // Hide Loader
+            gsap.to("#loader", {
+                opacity: 0,
+                duration: 1,
+                onComplete: () => {
+                    document.getElementById('loader').style.display = 'none';
+                    document.getElementById('content').classList.remove('hidden');
+                    initAnimations();
+                }
+            });
+        }
+
+        // Initialize GSAP Animations
+        function initAnimations() {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Animate each 'reveal' element on scroll
+            gsap.utils.toArray('.reveal').forEach((el) => {
+                gsap.to(el, {
+                    scrollTrigger: {
+                        trigger: el,
+                        start: "top 85%",
+                        toggleActions: "play none none none"
+                    },
+                    opacity: 1,
+                    y: 0,
+                    duration: 1.2,
+                    ease: "power4.out"
+                });
+            });
+
+            // Specific Hero Animation
+            gsap.from("#hero h1", {
+                scale: 0.8,
+                opacity: 0,
+                duration: 2,
+                ease: "expo.out"
+            });
+        }
+
+        // Confetti Celebration
+        function triggerCelebration() {
+            const duration = 5 * 1000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            const interval = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                const particleCount = 50 * (timeLeft / duration);
+                confetti(Object.assign({}, defaults, { 
+                    particleCount, 
+                    origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } 
+                }));
+                confetti(Object.assign({}, defaults, { 
+                    particleCount, 
+                    origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } 
+                }));
+            }, 250);
+
+            // Update Button Text
+            const btn = document.getElementById('finalBtn');
+            btn.innerHTML = "Wishes Coming True... ❤️";
+            btn.classList.add('scale-110');
+        }
+
+        // Hover effect for cursor
+        document.querySelectorAll('button, .glass').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.style.transform = 'scale(3)');
+            el.addEventListener('mouseleave', () => cursor.style.transform = 'scale(1)');
+        });
+    </script>
+</body>
+</html>
